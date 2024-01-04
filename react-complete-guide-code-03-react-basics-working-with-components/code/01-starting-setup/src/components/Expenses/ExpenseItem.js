@@ -1,5 +1,5 @@
 import ExpanseDate from "./ExpenseDate";
-import Card from "./Card";
+import Card from "../UI/Card";
 import "./ExpenseItem.css";
 
 function ExpenseItem(props) {
@@ -14,4 +14,4 @@ function ExpenseItem(props) {
   );
 }
 
-export default ExpenseItem; 
+export default ExpenseItem;
