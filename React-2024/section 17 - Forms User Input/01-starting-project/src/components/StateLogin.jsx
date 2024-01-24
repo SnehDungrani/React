@@ -1,47 +1,29 @@
-import { useState } from "react";
 import Input from "./Input";
 import { isEmail, isNotEmpty, hasMinLength } from "../util/validation";
+import { useInput } from "../Hooks/useInput";
 
 export default function Login() {
-  const [enteredValue, setEnteredValue] = useState({
-    email: "",
-    password: "",
-  });
+  const {
+    value: emailValue,
+    handleInputChange: handleEmailChange,
+    handleInputBlur: handleEmailBlur,
+    hasError: emailHasError,
+  } = useInput("", (value) => isEmail(value) && isNotEmpty(value));
 
-  const [didEdit, setDidEdit] = useState({
-    email: false,
-    password: false,
-  });
-
-  const emailIsInvalid =
-    didEdit.email &&
-    !isEmail(enteredValue.email) &&
-    !isNotEmpty(enteredValue.email);
-  const passwordIsInvalid =
-    didEdit.password && !hasMinLength(enteredValue.password, 6);
-
-  function handleInputChange(identifier, value) {
-    setEnteredValue((prevValue) => ({
-      ...prevValue,
-      [identifier]: value,
-    }));
-
-    setDidEdit((prevEdit) => ({
-      ...prevEdit,
-      [identifier]: false,
-    }));
-  }
-
-  function handleInputBlur(initialValue) {
-    setDidEdit((prevEdit) => ({
-      ...prevEdit,
-      [initialValue]: true,
-    }));
-  }
+  const {
+    value: passwordValue,
+    handleInputChange: handlePasswordChange,
+    handleInputBlur: handlePasswordBlur,
+    hasError: passwordHasError,
+  } = useInput("", (value) => hasMinLength(value, 6));
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(enteredValue);
+
+    if (emailHasError || passwordHasError) {
+      return;
+    }
+    console.log(emailValue, passwordValue);
   }
 
   return (
@@ -54,24 +36,20 @@ export default function Login() {
           name="email"
           type="email"
           id="email"
-          onBlur={() => {
-            handleInputBlur("email");
-          }}
-          onChange={(e) => handleInputChange("email", e.target.value)}
-          value={enteredValue.email}
-          error={emailIsInvalid && "Please enter a valid email!"}
+          onBlur={handleEmailBlur}
+          onChange={handleEmailChange}
+          value={emailValue}
+          error={emailHasError && "Please enter a valid email!"}
         />
         <Input
           label="Password"
           id="password"
           type="password"
           name="password"
-          onBlur={() => {
-            handleInputBlur("password");
-          }}
-          onChange={(e) => handleInputChange("password", e.target.value)}
-          value={enteredValue.password}
-          error={passwordIsInvalid && "Please enter a valid password!"}
+          onBlur={handlePasswordBlur}
+          onChange={handlePasswordChange}
+          value={passwordValue}
+          error={passwordHasError && "Please enter a valid password!"}
         />
       </div>
       <p className="form-actions">
