@@ -2,7 +2,7 @@ import MeetupList from "../components/meetups/MeetupList";
 
 const DUMMY_MEETUPS = [
   {
-    meetupId: "m1",
+    id: "m1",
     title: "A First Meetup",
     image:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1200px-Stadtbild_M%C3%BCnchen.jpg?20130611211153",
@@ -10,7 +10,7 @@ const DUMMY_MEETUPS = [
     description: "This is a first meetup!",
   },
   {
-    meetupId: "m2",
+    id: "m2",
     title: "A Second Meetup",
     image:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1200px-Stadtbild_M%C3%BCnchen.jpg?20130611211153",
