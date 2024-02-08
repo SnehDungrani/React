@@ -4,11 +4,23 @@ import { notFound } from "next/navigation";
 import { getMeal } from "@/lib/meals";
 import classes from "./page.module.css";
 
+export async function generateMetadata({ params }) {
+  const meal = getMeal(params.slug);
+
+  if (!meal) {
+    return notFound();
+  }
+  return {
+    title: meal.title,
+    description: meal.summary,
+  };
+}
+
 export default function MealsItemPage({ params }) {
   const meal = getMeal(params.slug);
 
   if (!meal) {
-    notFound();
+    return notFound();
   }
 
   meal.instructions = meal.instructions.replace(/\n/g, "<br />");
