@@ -29,7 +29,6 @@ export async function getStaticPaths() {
 
   const meetupCollection = db.collection("meetups");
   const meetups = await meetupCollection.find({}, { _id: 1 }).toArray();
-
   client.close();
 
   return {
