@@ -1,9 +1,10 @@
-import { Fragment } from "react";
-import MeetupDetail from "../../components/meetups/MeetupDetail";
 import { MongoClient, ObjectId } from "mongodb";
+import { Fragment } from "react";
 import Head from "next/head";
 
-export default function MeetupDetails(props) {
+import MeetupDetail from "../../components/meetups/MeetupDetail";
+
+function MeetupDetails(props) {
   return (
     <Fragment>
       <Head>
@@ -24,11 +25,12 @@ export async function getStaticPaths() {
   const client = await MongoClient.connect(
     "mongodb+srv://sneh56:Sneh%405683@atlascluster.a5immtx.mongodb.net/meetups?retryWrites=true&w=majority"
   );
-
   const db = client.db();
 
-  const meetupCollection = db.collection("meetups");
-  const meetups = await meetupCollection.find({}, { _id: 1 }).toArray();
+  const meetupsCollection = db.collection("meetups");
+
+  const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray();
+
   client.close();
 
   return {
@@ -40,15 +42,18 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context) {
+  // fetch data for a single meetup
+
   const meetupId = context.params.meetupId;
+
   const client = await MongoClient.connect(
     "mongodb+srv://sneh56:Sneh%405683@atlascluster.a5immtx.mongodb.net/meetups?retryWrites=true&w=majority"
   );
-
   const db = client.db();
 
-  const meetupCollection = db.collection("meetups");
-  const selectedMeetup = await meetupCollection.findOne({
+  const meetupsCollection = db.collection("meetups");
+
+  const selectedMeetup = await meetupsCollection.findOne({
     _id: new ObjectId(meetupId),
   });
 
@@ -66,3 +71,5 @@ export async function getStaticProps(context) {
     },
   };
 }
+
+export default MeetupDetails;
